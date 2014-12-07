@@ -64,7 +64,7 @@ fn handle_client(mut stream: TcpStream) {
 
     match get_file_buffer(&get_file).as_slice() {
         [0] => stream.write_str( ( "404: file not found".to_string()).as_slice() ).unwrap(),
-        _ => stream.write( get_file_buffer(&get_file).as_slice() ).unwrap()
+        _ => stream.write( (header.into_bytes() + get_file_buffer(&get_file)).as_slice() ).unwrap()
     }
 }
 
