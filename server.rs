@@ -1,3 +1,4 @@
+use std::os;
 use std::io::{TcpListener, TcpStream};
 use std::io::{Acceptor, Listener};
 use std::io::BufferedReader;
@@ -69,8 +70,15 @@ fn handle_client(mut stream: TcpStream) {
 }
 
 fn main() {
+    
+    let ref args = os::args();
 
-    let listener = TcpListener::bind("127.0.0.1:8666");
+    let port = match args.len() {
+        2 => args,
+        _ => panic!("Please include a port to listen on"),
+    };
+    
+    let listener = TcpListener::bind(("127.0.0.1:".to_string() + port[1]).as_slice());
     let mut acceptor = listener.listen();
 
     for stream in acceptor.incoming() {
