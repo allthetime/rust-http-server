@@ -78,7 +78,8 @@ fn main() {
         _ => panic!("Please include a port to listen on"),
     };
 
-    let listener = TcpListener::bind(("127.0.0.1:".to_string() + port[1]).as_slice());
+    
+    let listener = TcpListener::bind(("0.0.0.0:".to_string() + port[1]).as_slice());
     let mut acceptor = listener.listen();
 
     for stream in acceptor.incoming() {
