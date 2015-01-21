@@ -31,7 +31,7 @@ fn handle_client(mut stream: TcpStream) {
 
     let header: String = "HTTP/1.1 200 OK\nContent-Type: text/html\n\r\n".to_string();
     let mut stream_reader = BufferedReader::new(stream.clone());
-  
+
     // read until first space of request to determine HTTP method
 
     let method = match stream_reader.read_until(32) {
@@ -51,9 +51,9 @@ fn handle_client(mut stream: TcpStream) {
         },
         Err(err) => err.to_string(),
     };
-   
+
     println!("request uri: {}", request_uri);
-    
+
     // Redirect root to a.html, otherwise parse file name
 
     let get_file = match request_uri.as_slice() {
@@ -70,14 +70,14 @@ fn handle_client(mut stream: TcpStream) {
 }
 
 fn main() {
-    
+
     let ref args = os::args();
 
     let port = match args.len() {
         2 => args,
         _ => panic!("Please include a port to listen on"),
     };
-    
+
     let listener = TcpListener::bind(("127.0.0.1:".to_string() + port[1]).as_slice());
     let mut acceptor = listener.listen();
 
