@@ -3,6 +3,7 @@ use std::io::{TcpListener, TcpStream};
 use std::io::{Acceptor, Listener};
 use std::io::BufferedReader;
 use std::io::File;
+use std::thread::Thread;
 
 
 fn get_file_buffer(path_str: &String) -> Vec<u8> {
@@ -84,10 +85,8 @@ fn main() {
 
     for stream in acceptor.incoming() {
         match stream {
-            Err(e) => { println!("{}", e) }
-            Ok(stream) => spawn(proc() {
-                handle_client(stream)
-            })
+            Err(e) => Thread::spawn(move || println!("{}", e)),
+            Ok(stream) => Thread::spawn(move || handle_client(stream))
         }
     }
 }
